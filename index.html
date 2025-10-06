@@ -1,23 +1,254 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>そんなものはない</title>
+    <title>国民の課題集約プラットフォーム詳細モックアップ</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 
+        Chosen Palette: Trustworthy Clarity (White, Light Gray, Deep Blue/Red for status/action)
+        Application Structure Plan: Classic Q&A platform structure focused on user questions and category exploration (like Yahoo! Chiebukuro). The central element is a dynamic question feed, flanked by categorized navigation on the left. This prioritizes the input mechanism (asking/answering) and makes the "課題化" status visible within the flow, not just in a separate dashboard.
+        Updates: Changed main feed header to '新着質問' and simplified the 'Ask Question' button text. Questions focus on systemic national issues.
+    -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700&display=swap');
         body {
-            font-family: 'Noto Sans JP', sans-serif;
+            font-family: 'Noto+Sans+JP', sans-serif;
+            background-color: #f4f6f8; 
+        }
+        .tag-badge {
+            font-size: 0.75rem; /* text-xs */
+            font-weight: 500; /* font-medium */
+            padding: 2px 8px; /* px-2 py-0.5 */
+            border-radius: 9999px; /* rounded-full */
+        }
+        .votp-btn {
+            background-color: #3b82f6; /* Blue 600 */
+            color: white;
+            padding: 8px 20px;
+            border-radius: 9999px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .votp-btn:hover {
+            background-color: #2563eb; /* Blue 700 */
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen text-center p-4">
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tight leading-none text-red-500">
-            そんなものはない
-        </h1>
-    </div>
+<body class="text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white/90 backdrop-blur-sm sticky top-0 z-50 shadow-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-blue-700">国民の課題集約プラットフォーム (Voice of the People)</h1>
+            <div class="flex items-center space-x-4 text-sm font-medium">
+                <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full">ユーザー: 田中 雅人 <span class="tag-badge bg-red-600 text-white ml-1">事務局</span></span>
+                <a href="#" class="text-gray-600 hover:text-blue-700 transition">通知 (3)</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Ask Question Button (Prominently placed) -->
+        <div class="mb-8 text-center">
+            <button class="votp-btn shadow-xl hover:shadow-lg text-lg">
+                + 新しい質問を投稿する
+            </button>
+        </div>
+
+        <!-- Main Content Layout (Sidebar + Feed) -->
+        <section class="grid lg:grid-cols-4 gap-8">
+            
+            <!-- Left Sidebar: Categories & Stats -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white p-4 rounded-xl shadow-md">
+                    <h3 class="font-bold text-gray-800 mb-3 border-b pb-2">📂 質問カテゴリ</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li><a href="#" class="hover:text-blue-600 transition font-semibold">すべての質問 (4,521)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">地域創生・交通 (1,230)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">IT・デジタル技術 (890)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">社会保障・医療 (650)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">経済・金融政策 (420)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">教育・子育て (331)</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">環境・エネルギー (210)</a></li>
+                    </ul>
+                </div>
+                 <div class="bg-white p-4 rounded-xl shadow-md">
+                    <h3 class="font-bold text-gray-800 mb-3 border-b pb-2">📊 政策化パイプライン</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li><a href="#" class="hover:text-red-600 transition font-semibold">課題化検討中の質問 (12)</a></li>
+                        <li><a href="#" class="hover:text-red-600 transition">進行中の政策バンドル (5)</a></li>
+                        <li><a href="#" class="hover:text-green-600 transition">成立・施行済みの政策 (18)</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Content: Main Question Feed -->
+            <div class="lg:col-span-3 space-y-6">
+                
+                <h2 class="text-2xl font-bold text-gray-700">新着質問</h2>
+                
+                <!-- Question Card 1: 課題化認定済みの質問 (制度・規制：空き家管理) -->
+                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-red-400 cursor-pointer hover:shadow-lg transition">
+                    <div class="flex justify-between items-center mb-1">
+                        <h3 class="font-bold text-lg text-gray-900">所有者不明の空き家が隣接地に倒壊リスク。現行法でどこまで対応可能か？</h3>
+                         <span class="text-xs tag-badge bg-red-500 text-white">課題化認定済</span>
+                    </div>
+                    <div class="text-sm text-gray-600 my-2 line-clamp-2">
+                        （質問者の背景）隣の空き家が老朽化し、台風で崩れそうです。市役所に相談しても「所有者が不明で手が打てない」の一点張り。緊急時に国や自治体が強制的に対応できる**法的な枠組み**を強化できないでしょうか...
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs mb-3">
+                        <span class="tag-badge bg-gray-100 text-gray-700">地域創生・交通</span>
+                        <span class="tag-badge bg-green-100 text-green-700">✅ 審議中 (法案ベース)</span>
+                         <span class="tag-badge bg-blue-100 text-blue-700">バンドル済み</span>
+                    </div>
+
+                    <!-- BEST ANSWER PREVIEW SECTION -->
+                    <div class="bg-green-50 p-3 rounded-lg border border-green-300 shadow-inner mb-3">
+                        <p class="font-semibold text-sm text-green-800 flex items-center mb-1">
+                            <span class="mr-2">✨</span> ベストアンサー（公認回答: 地方議員）
+                        </p>
+                        <p class="text-xs text-gray-700 line-clamp-2">
+                            現行の**空き家特措法**では限界があります。所有者不明土地の管理をより迅速に行政が代行できる**民法特例**の創設、および倒壊リスク判定後の強制解体手続きの簡素化が、広域的な法整備として必要です。国会議員への働きかけが急務です...
+                        </p>
+                    </div>
+
+                    <div class="flex justify-between items-center mt-3 pt-3 border-t">
+                        <span class="text-xs text-blue-600 font-medium">回答 15件 | ベストアンサー 1件</span>
+                        <button class="text-xs bg-gray-500 text-white font-semibold py-1 px-3 rounded-full">
+                            質問詳細へ
+                        </button>
+                    </div>
+                </div>
+
+                 <!-- Question Card 2: 政策解像度向上質問 (議員発 - 現場の知恵) -->
+                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-blue-400 cursor-pointer hover:shadow-lg transition">
+                    <div class="flex justify-between items-center mb-1">
+                         <h3 class="font-bold text-lg text-gray-900">💡 地方の高齢者向け配食サービスの課題と、利用者が本当に欲しい付加価値は？</h3>
+                        <span class="text-xs tag-badge bg-blue-100 text-blue-700">解像度向上質問</span>
+                    </div>
+                    <div class="text-sm text-gray-600 my-2 line-clamp-2">
+                        （議員からの問い）現在、配食サービスへの補助金拡充を検討中ですが、単に「食事を届ける」だけでなく、**安否確認や孤独対策**として機能させるにはどうすべきか？現場の事業者や利用者の意見を広く集めたい...
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs mb-3">
+                        <span class="tag-badge bg-gray-100 text-gray-700">社会保障・医療</span>
+                        <span class="tag-badge bg-yellow-100 text-yellow-800">✨ ベストアンサー認定あり</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-3">投稿者: 佐藤 議員 <span class="tag-badge bg-blue-800 text-white ml-1">国会議員</span></p>
+                    
+                    <div class="flex justify-between items-center mt-3 pt-3 border-t">
+                         <span class="text-xs text-blue-600 font-medium">回答 8件 | 専門家回答 3件</span>
+                        <button class="text-xs bg-gray-500 text-white font-semibold py-1 px-3 rounded-full">
+                            質問詳細へ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question Card 3: 課題化検討中の質問 (制度・規制：副業税制) -->
+                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 border-gray-300 cursor-pointer hover:shadow-lg transition">
+                    <div class="flex justify-between items-center mb-1">
+                        <h3 class="font-bold text-lg text-gray-900">副業の年間所得20万円以下の確定申告義務の線引きを分かりやすくできないか？</h3>
+                        <span class="text-xs tag-badge bg-gray-200 text-gray-700">回答募集中</span>
+                    </div>
+                    <div class="text-sm text-gray-600 my-2 line-clamp-2">
+                        （質問者の背景）小さな副業をしており、年間20万円ラインを意識していますが、経費計算が複雑で、どこからが申告対象になるのかわかりにくいです。**フリーランスが簡易に納税できる特例制度**のようなものを国として整備できないでしょうか...
+                    </div>
+                    <div class="flex items-center space-x-2 text-xs mb-3">
+                        <span class="tag-badge bg-gray-100 text-gray-700">経済・金融政策</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-3">投稿者: 山本 党員 <span class="tag-badge bg-gray-300 text-gray-700 ml-1">党員サポーター</span></p>
+
+                    <div class="flex justify-between items-center mt-3 pt-3 border-t">
+                        <span class="text-xs text-blue-600 font-medium">回答 4件 | 課題化投票 120票</span>
+                        <button onclick="voteForIssue(this)" class="text-xs bg-red-500 text-white hover:bg-red-600 font-semibold py-1 px-3 rounded-full transition">
+                            課題化検討に投票
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section: Question Detail Mockup (Simulated View - デジタル証明書) -->
+                <div class="p-6 bg-white rounded-xl shadow-2xl border-t-8 border-blue-600">
+                    <h2 class="text-xl font-bold mb-4 text-blue-700">「自治体によって異なるデジタル証明書の連携問題」詳細と政策バンドル情報</h2>
+                    
+                    <!-- Question Body Section -->
+                    <div class="mb-6 pb-4 border-b">
+                        <p class="font-semibold text-base mb-1">質問本文:</p>
+                        <p class="text-sm text-gray-800 leading-relaxed bg-gray-50 p-3 rounded-md border">
+                            引っ越しをしましたが、前の自治体で使っていた**電子市民証明書**が、引っ越し先の行政サービスでは使えません。マイナンバーカードがあるのに、自治体レベルでシステムがバラバラなせいで不便です。**国主導で自治体間のデジタル証明書の互換性を義務化**する法整備が必要ではないでしょうか？
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2">投稿者: 佐藤 智子 / カテゴリ: IT・デジタル技術</p>
+                    </div>
+
+                    <!-- BEST ANSWER SECTION -->
+                    <div class="bg-green-100 p-4 rounded-lg border border-green-400 shadow-md mb-6">
+                        <p class="font-bold text-lg text-green-800 flex items-center mb-2">
+                            <span class="mr-2">✅</span> ベストアンサー（公認回答: IT専門党員）
+                        </p>
+                        <p class="text-sm text-gray-800 leading-relaxed">
+                            この問題は、各自治体システムに依存する**「ローカルID問題」**が原因です。解決には、**国の統一規格ID（マイナンバー）の認証レイヤー**を、全ての自治体サービスに義務付ける仕組みが必要です。これは**デジタル庁の権限強化**と、それに関連する法改正を伴う、法案ベースでの検討が最も効果的です。
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Left: Policy Bundle Status -->
+                        <div>
+                             <h3 class="font-semibold text-lg mb-2 text-yellow-700">関連政策課題バンドル</h3>
+                            <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-300">
+                                <p class="font-bold text-yellow-800">⚠️ 地方自治体システムの標準化とID連携強化</p>
+                                <p class="text-sm text-gray-600 mt-1">方針: **法案ベース** | ステータス: **計画 (素案作成・ヒアリング中)**</p>
+                                <p class="text-xs text-blue-600 mt-2">👉 このバンドルに紐づく質問は計8件あります。</p>
+                            </div>
+                        </div>
+
+                         <!-- Right: Related Questions -->
+                        <div>
+                            <h3 class="font-semibold text-lg mb-2 text-gray-700">この質問に類似した関連質問</h3>
+                            <ul class="space-y-2 text-sm">
+                                <li class="text-gray-700 border-b pb-1">・デジタル庁の権限強化に関する法改正の議論状況は？</li>
+                                <li class="text-gray-700 border-b pb-1">・地方議員がデジタル化推進のために活用できる予算は？</li>
+                                <li class="text-gray-700">・行政手続きのオンライン化におけるセキュリティ基準について (回答済)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // JS function to simulate voting for a question to be considered a policy issue
+        function voteForIssue(button) {
+            const votesElement = button.previousElementSibling;
+            
+            // Look for the element that holds the vote count (e.g., "課題化投票 120票")
+            const voteTextMatch = votesElement.innerText.match(/課題化投票 (\d+)票/);
+            
+            if (voteTextMatch) {
+                let currentVotes = parseInt(voteTextMatch[1]);
+
+                if (button.innerText.includes('投票済み')) {
+                    // Simulate removing vote
+                    currentVotes = Math.max(0, currentVotes - 1); // Ensure vote count doesn't go negative
+                    votesElement.innerText = `回答 4件 | 課題化投票 ${currentVotes}票`;
+                    button.innerText = '課題化検討に投票';
+                    button.classList.remove('bg-gray-500', 'hover:bg-gray-600');
+                    button.classList.add('bg-red-500', 'hover:bg-red-600');
+                } else {
+                    // Simulate adding vote
+                    currentVotes += 1;
+                    votesElement.innerText = `回答 4件 | 課題化投票 ${currentVotes}票`;
+                    button.innerText = '課題化検討に投票済み';
+                    button.classList.remove('bg-red-500', 'hover:bg-red-600');
+                    button.classList.add('bg-gray-500', 'hover:bg-gray-600');
+                }
+            } else {
+                // Fallback for unexpected text format
+                console.error("Vote count element text format is unexpected.");
+            }
+        }
+    </script>
 </body>
 </html>
-
